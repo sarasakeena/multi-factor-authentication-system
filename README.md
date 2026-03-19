@@ -141,6 +141,9 @@ Mobile app integration
 ### Biometric Verification
 ![Biometric](screenshots/Capture2.PNG)
 
+### Verification (MFA)
+![Verification](screenshots/Capture.PNG)
+
 📌 Note
 
 Sensitive data (.env, user images) are excluded
