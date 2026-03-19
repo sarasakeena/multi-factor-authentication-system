@@ -17,5 +17,9 @@ __pycache__/
 *.nv
 .env
 .DS_Store
+.idea/
+.vscode/
+__pycache__/
+.env
 /External Libraries/
 /Scratches and Consoles/
