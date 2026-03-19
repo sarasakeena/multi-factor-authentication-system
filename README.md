@@ -122,7 +122,7 @@ Advanced ML-based anomaly detection
 
 Mobile app integration
 
-## 📸 Demo Preview
+## 📸 Screenshots
 
 ### Login Page
 ![Login](screenshots/Capture.PNG)
