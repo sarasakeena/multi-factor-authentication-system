@@ -125,10 +125,10 @@ Mobile app integration
 ## 📸 Demo Preview
 
 ### Login Page
-![Login](screenshots/Capture.png)
+![Login](screenshots/Capture.PNG)
 
 ### Biometric Verification
-![Biometric](screenshots/Capture2.png)
+![Biometric](screenshots/Capture2.PNG)
 
 📌 Note
 
