@@ -96,15 +96,6 @@ python main.py
 6. Open in Browser
 http://127.0.0.1:5000/
 
-## 📸 Screenshots
-
-<img width="1080" height="489" alt="image" src="https://github.com/user-attachments/assets/69251ccd-22b4-4862-a874-1be71f3b086e" />
-
-<img width="1080" height="466" alt="image" src="https://github.com/user-attachments/assets/9f722403-c87d-4a83-82f9-d59e1a2a45bc" />
-
-<img width="1080" height="396" alt="image" src="https://github.com/user-attachments/assets/8dc7ec0f-f8d1-4ac7-bceb-140b2acfd609" />
-
-
 🔐 Authentication Flow
 
 User registers with face + PIN
