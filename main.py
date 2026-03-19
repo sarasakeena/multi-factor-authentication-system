@@ -1,16 +1,13 @@
-from mailbox import Message
+from flask_mail import Mail, Message
 import device_fingerprint
 import dlib # type: ignore
 import os
 import cv2 # type: ignore
-from flask_mail import Mail, Message # type: ignore
 import numpy as np # type: ignore
 import base64
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify # type: ignore
 from deepface import DeepFace # type: ignore
 from tensorflow.keras.models import load_model  # type: ignore
-from tensorflow.keras.preprocessing.image import load_img, img_to_array  # type: ignore
-from database import register_user
 from src.utils.face_recognition import capture_face_embedding
 from database.crud import (
     register_user,
@@ -22,14 +19,10 @@ from dotenv import load_dotenv # type: ignore
 load_dotenv()
 import subprocess
 import webbrowser
-import threading
 import mediapipe as mp # type: ignore
-from flask import Flask, render_template, request, jsonify, redirect, url_for # type: ignore
 import time
-from datetime import datetime, timedelta
 from mtcnn import MTCNN  # type: ignore # Added MTCNN import
-from device_fingerprint import DeviceFingerprint
-from database.db_utils import save_face_hash, get_all_hashes, initialize_db
+from database.db_utils import save_face_hash, get_all_hashes
 
 # Initialize MTCNN detector
 mtcnn_detector = MTCNN()
@@ -42,7 +35,14 @@ COOLDOWN = 120     # 2 minutes after 3 failed attempts
 def alert_io_team(user_ip, similarity):
     # Implement email/API alert (e.g., Slack/WhatsApp)
     print(f"ALERT: Suspicious activity from IP {user_ip}. Similarity: {similarity}%")
-
+def get_db_connection():
+    return psycopg2.connect(
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT")
+    )
 def main():
     try:
         # Try to register the user
@@ -56,7 +56,7 @@ def main():
         except ValueError as ve:
             print(f"⚠️ {ve} - trying to fetch user ID from DB")
             # Assuming you have a method to get user_id by username
-            conn = psycopg2.connect("dbname=postgres user=postgres password=sakeena123 host=localhost port=5432")
+            conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute("SELECT id FROM users WHERE username = %s", ("john_doe",))
             result = cursor.fetchone()
@@ -108,12 +108,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_ROOT = os.path.join(BASE_DIR, "datasett")
 PROCESSED_FOLDER = os.path.join(DATASET_ROOT, "processed")
 MODELS_DIR = os.path.join(BASE_DIR, "models")
-YOLO_MODEL_PATH = os.path.join(MODELS_DIR, "yolov8n.pt")
-SHAPE_PREDICTOR = r"C:\iobproject\models\shape_predictor_68_face_landmarks.dat"
+SHAPE_PREDICTOR = os.path.join(MODELS_DIR, "shape_predictor_68_face_landmarks.dat")
 liveness_model = load_model(os.path.join(MODELS_DIR, "deepfake_cnn_model.h5"))
 ref_image = os.path.join(BASE_DIR, "data", "ref_image.jpg")
-DATABASE_URL = psycopg2.connect("dbname=face_auth_db user=postgres password=sakeena123 host=localhost port=5432")
-
 image_path = os.path.join(BASE_DIR, "ref_image.jpg")
 os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 os.makedirs(os.path.join(PROCESSED_FOLDER, "train", "real"), exist_ok=True)
@@ -127,12 +124,12 @@ except Exception as load_error:
     exit(1)
 
 app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_key_123")
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'authenticatordevicefp@gmail.com'
-app.config['MAIL_PASSWORD'] = 'ba38facd1e2a59cc22318b0712c14597'  # Your App Password
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD") 
 mail = Mail(app)
 def has_webcam():
     cap = cv2.VideoCapture(0)
@@ -159,7 +156,7 @@ def send_code():
 
     try:
         msg = Message(subject="🔐 Login Verification Code",
-                      sender='authenticatordevicefp@gmail.com',
+                      sender=os.getenv("MAIL_USERNAME"),
                       recipients=[email],
                       html=f"<h2>Your login code: <span style='color:blue;'>{code}</span></h2>")
         mail.send(msg)
@@ -312,7 +309,7 @@ def register():
     try:
         # Run face_register.py with the given name and password
         result = subprocess.run(
-            [r'C:\Users\HP\AppData\Local\Programs\Python\Python312\python.exe', 'data/face_register.py', name, password],
+            ['python', 'face_register.py', name, password],
             capture_output=True,
             text=True,
             encoding='utf-8'
