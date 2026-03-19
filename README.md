@@ -107,7 +107,7 @@ python main.py
 http://127.0.0.1:5000/
 ```
 
-🔐 Authentication Flow
+## 🔐 Authentication Flow
 
 User registers with face + PIN
 
@@ -123,7 +123,7 @@ Risk analysis
 
 Suspicious attempts → blocked
 
-🚀 Future Improvements
+## 🚀 Future Improvements
 
 Cloud deployment (AWS / GCP)
 
@@ -144,17 +144,17 @@ Mobile app integration
 ### Verification (MFA)
 ![Verification](screenshots/Capture.PNG)
 
-📌 Note
+## 📌 Note
 
 Sensitive data (.env, user images) are excluded
 
 Developed as a hackathon finalist project
 
-👩‍💻 Author
+## 👩‍💻 Author
 
 Sara Sakeena
 GitHub: https://github.com/sarasakeena
 
-⭐ Support
+## ⭐ Support
 
 If you like this project, give it a ⭐!
