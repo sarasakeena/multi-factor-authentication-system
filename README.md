@@ -122,6 +122,14 @@ Advanced ML-based anomaly detection
 
 Mobile app integration
 
+## 📸 Demo Preview
+
+### Login Page
+![Login](screenshots/Capture.png)
+
+### Biometric Verification
+![Biometric](screenshots/Capture2.png)
+
 📌 Note
 
 Sensitive data (.env, user images) are excluded
