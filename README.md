@@ -52,6 +52,7 @@ This project introduces a **multi-layered authentication system** that uses AI/M
 ---
 
 ## 🏗️ Project Structure
+```
 multi-factor-authentication-system/
 ├── src/ # Core logic
 ├── database/ # DB operations
@@ -61,7 +62,7 @@ multi-factor-authentication-system/
 ├── main.py # Flask app
 ├── config.py
 ├── requirements.txt
-
+```
 ---
 
 ## ⚙️ Setup Instructions
@@ -70,15 +71,20 @@ multi-factor-authentication-system/
 ```bash
 git clone https://github.com/sarasakeena/multi-factor-authentication-system.git
 cd multi-factor-authentication-system
+```
 
 2. Create Virtual Environment
+```
 python -m venv venv
 venv\Scripts\activate   # Windows
-
-3. Install Dependencies
+```
+4. Install Dependencies
+```
 pip install -r requirements.txt
+```
 
-4. Create .env File
+6. Create .env File
+```
 FLASK_SECRET_KEY=your_secret_key
 
 DB_NAME=your_db_name
@@ -89,12 +95,17 @@ DB_PORT=5432
 
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_app_password
+```
 
 5. Run the App
+```
 python main.py
+```
 
-6. Open in Browser
+7. Open in Browser
+```
 http://127.0.0.1:5000/
+```
 
 🔐 Authentication Flow
 
