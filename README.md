@@ -142,7 +142,7 @@ Mobile app integration
 ![Biometric](screenshots/Capture2.PNG)
 
 ### Verification (MFA)
-![Verification](screenshots/Capture.PNG)
+![Verification](screenshots/Capture1.PNG)
 
 ## 📌 Note
 
